@@ -4,12 +4,12 @@ var jwt = require('jwt-simple');
 var moment = require('moment');
 var secret = 'venta_online';
 
-exports.ensureAuth = function(req, res, nex){
+exports.ensureAuth = function(req, res, next){
     if(!req.headers.authorization){
         return res.status(403).send({message: 'La peticion no tiene cabecera de autorizacion'});
     }
 
-    var toke = req.headers.authorization.replace(/['"']+/g, '');
+    var token = req.headers.authorization.replace(/['"']+/g, '');
 
     try {
         var payload = jwt.decode(token, secret);
