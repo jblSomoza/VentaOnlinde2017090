@@ -79,15 +79,21 @@ function login(req, res) {
 
 function editarUsuario(req, res) {
     var userId = req.params.id;
+    var userRol = req.params.rol;
     var params = req.body;
 
     delete params.password;
 
-    if(userId != req.user.sub){        
-        return res.status(500).send({message: 'No tiene los permisos para actualizar los datos de este usuario'})        
+    if(req.user.rol == 'Administrador'){
+        if(userRol != 'Cliente'){
+            return res.status(404).send({message: 'No puede modificar a un usuario Administrador'});            
+        }
     }
-
-    if(req.user.rol == 'Cliente' || req.user.rol == 'Administrador'){
+    
+    if(userId != req.user.sub){        
+        return res.status(500).send({message: 'No tiene los permisos para actualizar los datos de este usuario'})  //Cualquiera puede editar con su token        
+    }    
+    
         User.findByIdAndUpdate(userId, params, {new:true}, (err, usuarioActualizado)=>{
             if(err) return res.status(500).send({message: 'Error en la peticion'});
 
@@ -95,7 +101,6 @@ function editarUsuario(req, res) {
 
             return res.status(200).send({user: usuarioActualizado});
         })
-    }        
 }
 
 module.exports ={
