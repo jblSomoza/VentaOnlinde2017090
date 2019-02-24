@@ -8,7 +8,6 @@ function registrar(req, res) {
     var user = new User();
     var params = req.body;
 
-    //if(req.user.rol != 'Administrador'){
         if(params.usuario && params.email && params.password){
             user.nombre = params.nombre;
             user.usuario = params.usuario;
@@ -47,7 +46,6 @@ function registrar(req, res) {
                 message: 'Rellene todos los campos necesarios'
             });
         }
-    //}   
 }
 
 function login(req, res) {
@@ -79,7 +77,29 @@ function login(req, res) {
     })
 }
 
+function editarUsuario(req, res) {
+    var userId = req.params.id;
+    var params = req.body;
+
+    delete params.password;
+
+    if(userId != req.user.sub){        
+        return res.status(500).send({message: 'No tiene los permisos para actualizar los datos de este usuario'})        
+    }
+
+    if(req.user.rol == 'Cliente' || req.user.rol == 'Administrador'){
+        User.findByIdAndUpdate(userId, params, {new:true}, (err, usuarioActualizado)=>{
+            if(err) return res.status(500).send({message: 'Error en la peticion'});
+
+            if(!usuarioActualizado) return res.status(404).send({message: 'No se ha podido actualizar los datos del usuario'});
+
+            return res.status(200).send({user: usuarioActualizado});
+        })
+    }        
+}
+
 module.exports ={
     registrar,
-    login
+    login,
+    editarUsuario
 }

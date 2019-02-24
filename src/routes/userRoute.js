@@ -11,4 +11,6 @@ api.post('/agregar-administrador', UserController.registrar);
 api.post('/registrar', [md_auth.ensureAuth, administrador.esAdmin] ,UserController.registrar);
 api.post('/login', UserController.login);
 
+api.put('/editar-usuario/:id', [md_auth.ensureAuth], UserController.editarUsuario);
+
 module.exports = api;
