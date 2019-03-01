@@ -50,7 +50,42 @@ function crearCategoria(req, res) {
         });
     }
 }
+
+function editarCategoria(req, res) {
+    var categoriaId = req.params.id;
+    var params = req.body;
+
+    Categorias.findByIdAndUpdate(categoriaId, params, {new:true}, (err, categoriaActualizada)=>{
+        if(err) return res.status(404).send({message: 'Error en la peticion'});
+
+        if(!categoriaActualizada) return res.status.send({message: 'No se a agregado la categorias'});
+
+        return res.status(200).send({categorias: categoriaActualizada});
+    });
+}
+
+function borrarCategoria(req, res) {
+    var categoriaId = req.params.id;
+
+    //Categorias.findById
+
+    //Producto.updateMany
+
+    Categorias.findByIdAndUpdate(categoriaId, (err, categoriaBorrado) =>{
+        if(err) return res.status(500).send({message: 'Error en la peticion'});
+
+        if(!categoriaBorrado) return res.status(404).send({message: 'No se a podido borrar la categorias'});
+
+        if(req.categorias.nombreCategoria == 'Miscelanea'){
+            return res.status(404).send({message: 'No se puede eliminar la categoria Miscelanea'});
+        }else{
+            res.status(200).send({message: 'Se logro eliminar la categorias'});
+        }        
+    })
+}
 module.exports = {
     categoriaMiscelanea,
-    crearCategoria
+    crearCategoria,
+    editarCategoria,
+    borrarCategoria
 }
