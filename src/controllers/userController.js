@@ -83,28 +83,31 @@ function editarUsuario(req, res) {
     var params = req.body;
 
     delete params.password;
-
-    if(req.user.rol == 'Administrador'){
-        if(userRol != 'Cliente'){
-            return res.status(404).send({message: 'No puede modificar a un usuario Administrador'});            
-        }
-    }
-    
-    if(userId != req.user.sub){        
-        return res.status(500).send({message: 'No tiene los permisos para actualizar los datos de este usuario'})  //Cualquiera puede editar con su token        
-    }    
     
         User.findByIdAndUpdate(userId, params, {new:true}, (err, usuarioActualizado)=>{
             if(err) return res.status(500).send({message: 'Error en la peticion'});
 
-            if(!usuarioActualizado) return res.status(404).send({message: 'No se ha podido actualizar los datos del usuario'});
+            if(!usuarioActualizado) return res.status(404).send({message: 'No se ha podido actuaizar los datos del usuario'});
 
             return res.status(200).send({user: usuarioActualizado});
         })
 }
 
+function borrarUsuario(req, res) {
+    var usuarioId = req.params.id;
+
+    User.findByIdAndDelete(usuarioId, (err, usuarioBorrado) =>{
+        if(err) return res.status(500).send({message: 'Error en la peticion'});
+
+        if(!usuarioBorrado) return res.status(404).send({message: 'No se a podido borrar al usuario'});
+
+        res.status(200).send({message: 'Se logro eliminar al usuario correctamente'});
+    });
+}
+
 module.exports ={
     registrar,
     login,
-    editarUsuario
+    editarUsuario,
+    borrarUsuario
 }
