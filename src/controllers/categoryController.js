@@ -1,17 +1,23 @@
 'use strict'
 
-var Category = require('../models/category');
+var Categorias = require('../models/category');
 
-var inicioPrograma = function(primeraTabla) {
-    callBack(primeraTabla)
+function categoriaMiscelanea(callback) {
+    callback();
 }
+categoriaMiscelanea(function creaMiscelanea(res) {
+    var categorias = new Categorias();
+    categorias.nombreCategoria = 'Miscelanea';
 
-function primeraTabla(req, res) {
-    var category = new Category();
+    Categorias.find((err, repetir)=>{
+        if(repetir && repetir.length < 1){
+            categorias.save((err, categoriaGuardada)=>{
+            })
+        }
+    })
+});
 
-    category.nombreCategoria = 'Miscelanea';
-}
 
 module.exports = {
-    inicioPrograma
+    categoriaMiscelanea
 }
