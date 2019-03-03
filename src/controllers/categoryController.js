@@ -71,21 +71,28 @@ function borrarCategoria(req, res) {
 
     //Producto.updateMany
 
-    Categorias.findByIdAndUpdate(categoriaId, (err, categoriaBorrado) =>{
+    Categorias.findByIdAndDelete(categoriaId, (err, categoriaBorrado) =>{
         if(err) return res.status(500).send({message: 'Error en la peticion'});
 
         if(!categoriaBorrado) return res.status(404).send({message: 'No se a podido borrar la categorias'});
 
-        if(req.categorias.nombreCategoria == 'Miscelanea'){
-            return res.status(404).send({message: 'No se puede eliminar la categoria Miscelanea'});
-        }else{
-            res.status(200).send({message: 'Se logro eliminar la categorias'});
-        }        
+        res.status(200).send({message: 'Se logro eliminar la categoria'});
+    })
+}
+
+function listarCategoria(req, res){
+    Categorias.find({}).exec((err, categorias)=>{
+        if(err) return res.status(500).send({message: 'Error en la peticion'});
+
+        if(!categorias) return res.status(500).send({message: 'No se encuentran categorias registradas'});
+
+        res.status(200).send({categorias});
     })
 }
 module.exports = {
     categoriaMiscelanea,
     crearCategoria,
     editarCategoria,
-    borrarCategoria
+    borrarCategoria,
+    listarCategoria
 }
