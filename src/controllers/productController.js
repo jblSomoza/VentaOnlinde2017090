@@ -65,9 +65,21 @@ function listarProductos(req, res) {
     });  //El populate es un metodo que sirve como un join para ir a traer datos relacionados
 
 }
+
+function buscarProducto(req, res) {
+    var nombre = req.body.nombre; 
+    
+    Producto.find(
+        {nombre: new RegExp('^' + nombre, 'i')
+    }).exec((err, buscarProducto)=>{
+        if(!buscarProducto) return res.status(404).send({message: 'No hay Coincidencias en la Base de Datos'});
+        return res.status(200).send({buscarProducto : buscarProducto});
+    });
+}
 module.exports = {
     agregarProducto,
     editarProducto,
     borrarProducto,
-    listarProductos
+    listarProductos,
+    buscarProducto
 }

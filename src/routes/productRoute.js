@@ -14,5 +14,6 @@ api.put('/editar-producto/:id', [md_Auth.ensureAuth, administrador.esAdmin], Pro
 api.delete('/borrar-producto/:id', [md_Auth.ensureAuth, administrador.esAdmin], ProductController.borrarProducto);
 
 api.get('/listar-productos', [md_Auth.ensureAuth, administrador.esAdmin], ProductController.listarProductos);
+api.get('/buscar-producto', md_Auth.ensureAuth, ProductController.buscarProducto);
 
 module.exports = api;
