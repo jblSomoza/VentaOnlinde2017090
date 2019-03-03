@@ -8,6 +8,7 @@ var user_routes = require('./routes/userRoute');
 var category_routes = require('./routes/categoryRoute');
 var product_routes = require('./routes/productRoute');
 var cart_routes = require('./routes/cartRoute');
+var bill_routes = require('./routes/billRoute');
 
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
@@ -25,5 +26,6 @@ app.use('/api', user_routes);
 app.use('/api', category_routes);
 app.use('/api', product_routes);
 app.use('/api', cart_routes);
+app.use('/api', bill_routes);
 
 module.exports = app;
