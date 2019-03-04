@@ -67,10 +67,6 @@ function editarCategoria(req, res) {
 function borrarCategoria(req, res) {
     var categoriaId = req.params.id;
 
-    //Categorias.findById
-
-    //Producto.updateMany
-
     Categorias.findByIdAndDelete(categoriaId, (err, categoriaBorrado) =>{
         if(err) return res.status(500).send({message: 'Error en la peticion'});
 

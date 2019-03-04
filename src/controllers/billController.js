@@ -40,6 +40,30 @@ function generarFactura(req, res) {
     })
 }
 
+function borrarFactura(req, res) {
+    var facturaId = req.params.id;
+
+    Factura.findByIdAndDelete(facturaId, (err, facturaBorrada) =>{
+        if(err) return res.status(500).send({message: 'Error en la peticion'});
+
+        if(!facturaBorrada) return res.status(404).send({message: 'No se a podido borrar la factura'});
+
+        res.status(200).send({message: 'Se logro eliminar la factura'});
+    })
+}
+
+function listarFacturas(req, res){
+    Factura.find({}).exec((err, facturas)=>{
+        if(err) return res.status(500).send({message: 'Error en la peticion'});
+
+        if(!facturas) return res.status(500).send({message: 'No se encuentran facturas registradas'});
+
+        res.status(200).send({facturas});
+    })
+}
+
 module.exports = {
-    generarFactura
+    generarFactura,
+    borrarFactura,
+    listarFacturas
 }

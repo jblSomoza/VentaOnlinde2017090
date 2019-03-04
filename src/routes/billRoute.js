@@ -8,4 +8,8 @@ var api = express.Router();
 
 api.post('/generar-factura', md_Auth.ensureAuth, FacturaController.generarFactura);
 
+api.delete('/eliminar-factura/:id', md_Auth.ensureAuth, FacturaController.borrarFactura);
+
+api.get('/listar-facturas', md_Auth.ensureAuth, FacturaController.listarFacturas);
+
 module.exports = api;
