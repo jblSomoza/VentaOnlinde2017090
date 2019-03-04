@@ -16,5 +16,8 @@ api.put('/editar-usuario/:id', md_auth.ensureAuth, UserController.editarUsuario)
 api.put('/editar-administrador/:id', [md_auth.ensureAuth, administrador.esAdmin], UserController.registrar); 
 
 api.delete('/borrar-usuario/:id', md_auth.ensureAuth, UserController.borrarUsuario);
+api.delete('/borrar-administrador/:id', [md_auth.ensureAuth, administrador.esAdmin], UserController.borrarUsuario);
+
+api.get('/listar-usuarios', [md_auth.ensureAuth, administrador.esAdmin], UserController.listarUsuarios);
 
 module.exports = api;

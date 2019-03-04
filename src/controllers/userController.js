@@ -105,9 +105,20 @@ function borrarUsuario(req, res) {
     });
 }
 
+function listarUsuarios(req, res){
+    User.find({}).exec((err, usuarios)=>{
+        if(err) return res.status(500).send({message: 'Error en la peticion'});
+
+        if(!usuarios) return res.status(500).send({message: 'No se encuentran usuarios registrados'});
+
+        res.status(200).send({usuarios});
+    })
+}
+
 module.exports ={
     registrar,
     login,
     editarUsuario,
-    borrarUsuario
+    borrarUsuario,
+    listarUsuarios
 }
