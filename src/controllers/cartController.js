@@ -34,6 +34,44 @@ function agregarCarrito(req, res) {
     }
 }
 
+function editarCarrito(req, res) {
+    var carritoId = req.params.id;
+    var params = req.body;
+
+    Carrito.findByIdAndUpdate(carritoId, params, (err, carritoActualizado) => {
+        if(err) return res.status(500).send({message: 'Error en la peticion'});
+
+        if(!carritoActualizado) return res.status(404).send({message: 'No se actualizo el carrito'});
+
+        res.status(200).send({carritoActualizado});
+    })
+}
+
+function borrarCarrito(req, res) {
+    var carritoId = req.params.id;
+
+    Carrito.findByIdAndDelete(carritoId, (err, carritoEliminado) => {
+        if(err) return res.status(500).send({message: 'Error en la peticion'});
+
+        if(!carritoEliminado) return res.status(404).send({message: 'No se pudo eliminar el carrito'});
+
+        res.status(200).send({message: 'Se pudo eliminar el carrito correctamente'});
+    })
+}
+
+function listarCarritos(req, res){
+    Carrito.find({}).exec((err, carritos)=>{
+        if(err) return res.status(500).send({message: 'Error en la peticion'});
+
+        if(!carritos) return res.status(500).send({message: 'No se encuentran carritos registradas'});
+
+        res.status(200).send({carritos});
+    })
+}
+
 module.exports = {
-    agregarCarrito
+    agregarCarrito,
+    editarCarrito,
+    borrarCarrito,
+    listarCarritos
 }
