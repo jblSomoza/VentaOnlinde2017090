@@ -9,7 +9,8 @@ var BillSchema = ({
         default: Date.now
     },
     total: Number,
-    carrito: {type: [Schema.ObjectId], ref: 'ShoppingCart'} //Se declaro un arreglo para traer varios carritos
+    carrito: {type: [Schema.ObjectId], ref: 'ShoppingCart'}, //Se declaro un arreglo para traer varios carritos
+    idUsuario: String 
 });
 
 module.exports = mongoose.model('Bills', BillSchema);

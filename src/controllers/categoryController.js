@@ -1,6 +1,7 @@
 'use strict'
 
 var Categorias = require('../models/category');
+var Producto = require('../models/product');
 
 function categoriaMiscelanea(callback) {
     callback();

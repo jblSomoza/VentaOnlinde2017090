@@ -76,10 +76,20 @@ function buscarProducto(req, res) {
         return res.status(200).send({buscarProducto : buscarProducto});
     });
 }
+
+function listarCategoria(req, res) {
+    var idCategoria = req.params.id;
+
+    Producto.find({ categoria: idCategoria }, (err, respuesta) => {
+        return res.status(200).send({ Producto: respuesta });
+    });
+}
+
 module.exports = {
     agregarProducto,
     editarProducto,
     borrarProducto,
     listarProductos,
-    buscarProducto
+    buscarProducto,
+    listarCategoria
 }

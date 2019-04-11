@@ -9,6 +9,8 @@ function generarFactura(req, res) {
     var params = req.body;
     var total = 0
     
+    var idUsuario = req.user.sub;
+
     Carrito.find({ $and:[
         {generarFactura: false},
         {user: req.user.sub}
@@ -29,6 +31,8 @@ function generarFactura(req, res) {
             });            
         }
         factura.total = total;
+
+        factura.idUsuario = req.user.sub;
 
         factura.save((err, facturaGuardada) => {
             if(err) return res.status(500).send({message: 'Error en la peticion'});
@@ -53,13 +57,15 @@ function borrarFactura(req, res) {
 }
 
 function listarFacturas(req, res){
-    Factura.find({}).exec((err, facturas)=>{
+
+    Factura.find({idUsuario : req.user.sub}).exec((err, facturas)=>{
         if(err) return res.status(500).send({message: 'Error en la peticion'});
 
         if(!facturas) return res.status(500).send({message: 'No se encuentran facturas registradas'});
 
         res.status(200).send({facturas});
     })
+
 }
 
 module.exports = {
